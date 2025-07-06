@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+google-generativeai
+streamlit
+requests
+pytest
+nest-asyncio
+python-dotenv
