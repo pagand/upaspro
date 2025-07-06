@@ -1,10 +1,13 @@
 
 from fastapi import FastAPI
 from pydantic import BaseModel
-from .services import gemini_service
 from dotenv import load_dotenv
-
 load_dotenv()
+
+from .services import gemini_service
+
+
+
 
 app = FastAPI()
 
