@@ -31,7 +31,6 @@ A web-based application where:
 - [ ] FastAPI backend has an endpoint that accepts a query and returns a response from Gemini.
 - [ ] Streamlit frontend can send a query to the FastAPI backend.
 - [ ] The response from Gemini is displayed in the Streamlit UI.
-- [ ] The application is containerized using Docker.
 - [ ] All tests pass and code meets quality standards.
 
 ## All Needed Context
@@ -45,8 +44,6 @@ A web-based application where:
   why: Core Streamlit framework documentation.
 - url: https://ai.google.dev/docs
   why: Gemini API documentation.
-- url: https://docs.docker.com/get-started/
-  why: Docker for containerization.
 ```
 
 ### Desired Codebase tree with files to be added
@@ -60,11 +57,8 @@ A web-based application where:
 │   │       └── gemini_service.py # Logic for interacting with Gemini API
 │   ├── tests/
 │   │   └── test_main.py         # Tests for the FastAPI app
-│   └── Dockerfile               # Dockerfile for the backend
 ├── frontend/
 │   ├── app.py                   # Streamlit application
-│   └── Dockerfile               # Dockerfile for the frontend
-├── docker-compose.yml           # Docker Compose to run both services
 ├── .env.example                 # Environment variables template
 └── requirements.txt             # Python dependencies
 ```
@@ -112,28 +106,15 @@ CREATE frontend/app.py:
   - When the user enters a query and clicks a button, send a POST request to the FastAPI backend's /query endpoint.
   - Display the response from the backend.
 
-Task 4: Add Dockerization
-CREATE backend/Dockerfile:
-  - Use a Python base image.
-  - Copy backend code and install dependencies.
-  - Expose the port and run the FastAPI app with uvicorn.
-CREATE frontend/Dockerfile:
-  - Use a Python base image.
-  - Copy frontend code and install dependencies.
-  - Expose the port and run the Streamlit app.
-CREATE docker-compose.yml:
-  - Define services for the backend and frontend.
-  - Set up networking between the services.
 
-Task 5: Add Tests
+Task 4: Add Tests
 CREATE backend/tests/test_main.py:
   - Write a test for the /query endpoint.
   - Mock the Gemini service to avoid actual API calls.
 
-Task 6: Create Documentation
+Task 5: Create Documentation
 UPDATE README.md:
   - Include setup, installation, and usage instructions.
-  - Explain how to run the application with Docker Compose.
 ```
 
 ### Per task pseudocode
@@ -190,7 +171,7 @@ mypy .
 ### Level 2: Unit Tests
 ```bash
 # Run backend tests
-docker-compose run backend pytest
+pytest
 
 # Expected: All tests pass.
 ```
@@ -198,17 +179,18 @@ docker-compose run backend pytest
 ### Level 3: Integration Test
 ```bash
 # Start the application
-docker-compose up
+uvicorn backend.app.main:app
+
 
 # Open a browser to the Streamlit URL (e.g., http://localhost:8501)
 # Enter a question and verify that a response from Gemini is displayed.
 ```
 
 ## Final Validation Checklist
-- [ ] All tests pass: `docker-compose run backend pytest`
+- [ ] All tests pass: `run backend pytest`
 - [ ] No linting errors: `ruff check .`
 - [ ] No type errors: `mypy .`
-- [ ] The application starts with `docker-compose up`.
+- [ ] The application starts with `uvicorn backend.app.main:app`.
 - [ ] The Streamlit UI is accessible in a browser.
 - [ ] Queries to the Streamlit UI get responses from the FastAPI backend.
 - [ ] The backend successfully calls the Gemini API.
